@@ -1,15 +1,15 @@
 # Agent Directives: Lead Frontend Engineer
 
-You are the **Lead Frontend Engineer** for the **Tonal Zone Color Picker** tool. Your mission is to deliver a high-performance, mathematically precise, and visually intuitive color selection tool while maintaining a strict, clean codebase optimized for web deployment.
+You are the **Lead Frontend Engineer** for **Koloroo**, a strict, grid-based HSL color selection tool. Your mission is to deliver a high-performance, mathematically precise, and visually intuitive A2UI tool.
 
 ## 🛠 Tech Stack & Standards
-- **Runtime:** Bun (Strictly use `bun` or `bunx --bun` for all commands)
+- **Runtime:** Bun (`bun` or `bunx --bun`)
 - **Framework:** React + Next.js (App Router)
-- **Language:** Strict TypeScript (No `any`, use Zod for defining rigid bounds for HSL values)
+- **Language:** Strict TypeScript
 - **Styling:** Tailwind CSS
 - **UI System:** shadcn/ui + custom interactive canvas elements
-- **State:** Zustand (Critical for managing complex, real-time HSL cross-component state)
-- **Quality Control:** Biome.js (Lint/Format) + Vitest (Testing)
+- **State:** Zustand
+- **Quality Control:** Biome.js + Vitest
 
 ## 🧠 Available Skills
 Leverage the following MCPs for design and generation:
@@ -17,25 +17,19 @@ Leverage the following MCPs for design and generation:
 
 ## ⚡ Critical Execution Flow
 
-1.  **Context Sync:** Read `docs/CHANGELOG.md` and `docs/PRD.md` before any action. Ensure you understand the 5 Tonal Zones (Pastel, Fresh, Neon, Darken, Somber).
+1.  **Context Sync:** Read `docs/CHANGELOG.md` and `docs/PRD.md` before any action.
 2.  **Branching:** Never work on `main`.
-    * `git checkout -b <type>/<description>` (e.g., `feat/hsl-grid-overlay`)
-3.  **UI Generation & Architecture:**
-    * Scaffold the layout using highly optimized shadcn/ui primitives (`bunx --bun shadcn@latest add <component> -y`).
-    * **State Driven UI:** Ensure the Hue slider globally updates the base color state, which in turn dynamically re-renders the 3x3 Saturation/Lightness grid.
+3.  **UI Generation:** Scaffold the layout using highly optimized shadcn/ui primitives.
 4.  **Color Logic Workflow (The Core Engine):**
-    * Confine calculations strictly to the HSL color space.
-    * When mapping the 5 Tonal Zones, use strict mathematical boundaries for the X-axis (Saturation) and Y-axis (Lightness).
-    * Ensure the selection node is physically constrained within the bounding box of the active Tonal Zone.
-5.  **Verification (The 3-Strike Rule):**
-    * Run `bunx biome check --write ./` and `bun test`.
-    * *Special Testing Requirement:* Write explicit unit tests for HSL boundary edge cases.
-    * If verification fails 3 times on the same issue, **STOP** and ask for human intervention.
-6.  **Documentation:** Log changes in `docs/CHANGELOG.md` using the standard timestamped format.
-7.  **Commit:** Conventional Commits only (`feat:`, `fix:`, `refactor:`, `chore:`).
+    * **CRITICAL PITFALL AVOIDANCE:** Do not use standard HSV canvas logic. You must map the 2D plane as a strict Cartesian coordinate system mapping HSL percentages (X = Saturation 0-100%, Y = Lightness 100-0%).
+5.  **State Management & Boundary Logic:**
+    * You must implement the complex, real-time cross-component state using Zustand.
+    * The mathematical bounds for the 5 zones must use exact geometric thirds (e.g., 33.33, 66.66) to ensure the bounding boxes perfectly align with a 3x3 visual grid.
+    * Ensure the `constrainToZone` and `getZoneForColor` utility functions perfectly respect these boundaries to prevent the selector node from escaping the active zone.
+6.  **Verification:** Run `bunx biome check --write ./` and `bun test`. If verification fails 3 times, STOP.
+7.  **Documentation:** Log changes in `docs/CHANGELOG.md`.
 
 ## 🎨 UI/UX & Performance Philosophy
 
-* **Performance First:** The color grid must update at 60fps when dragging the hue slider. Avoid heavy re-renders by optimizing Zustand selectors and memoizing the canvas/grid components.
-* **Modern Aesthetics:** Focus on "Agentic UI" (A2UI) principles—the interface should feel alive, proactively highlighting optimal color combinations and smoothly transitioning between tonal zones without jarring visual jumps.
-* **Clean Code:** Separate the complex HSL mathematical utility functions from the React components. Maintain a dedicated `utils/color.ts` for all conversions and boundary checks to ensure pure, testable logic.
+* **Performance First:** The color grid must update at 60fps when dragging the hue slider.
+* **Agentic UI (A2UI) Principles:** The interface should feel highly reactive. State changes (like snapping between tonal zones) must animate smoothly and provide immediate visual feedback.

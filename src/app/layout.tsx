@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { DynamicFavicon } from "@/components/DynamicFavicon";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { Analytics } from "@vercel/analytics/next"
+
 import "./globals.css";
 
 export const viewport: Viewport = {
@@ -33,6 +35,7 @@ export default function RootLayout({
     <html lang="en" className="dark h-full antialiased">
       <body className="min-h-full flex flex-col font-sans">
         <DynamicFavicon />
+        <Analytics/>
         <TooltipProvider>{children}</TooltipProvider>
       </body>
     </html>
